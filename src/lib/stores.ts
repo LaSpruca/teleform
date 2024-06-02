@@ -8,6 +8,13 @@ export type Teleform = {
     answers: (TeleformAnswer | undefined)[];
 };
 
+export const teleforms = writable<string[]>(
+    JSON.parse(localStorage.getItem("teleforms") ?? "[]"),
+);
+teleforms.subscribe((newState) => {
+    localStorage.setItem("teleforms", JSON.stringify(newState));
+});
+
 export const currentTeleform = writable<Teleform | null>();
 currentTeleform.subscribe((newState) => {
     if (newState) {

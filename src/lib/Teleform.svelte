@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { currentTeleform } from "./stores";
+    import { currentTeleform, teleforms } from "./stores";
     import type { TeleformAnswer } from "./stores";
 
     let mark = false;
@@ -59,6 +59,15 @@
         mark = !mark;
     }
 
+    function remove() {
+        const name = $currentTeleform!.name;
+        const newNames = $teleforms;
+        newNames.splice(newNames.indexOf(name), 1);
+
+        $teleforms = newNames;
+        $currentTeleform = null;
+    }
+
     function loadAnswers() {
         const answers = prompt("Enter CSV seperated answers here");
         if (!answers) {
@@ -87,6 +96,10 @@
         } catch (ex) {}
     }
 </script>
+
+<svelte:head>
+    <title>{$currentTeleform?.name} | Teleform</title>
+</svelte:head>
 
 <h1 class="pb-10 text-center text-2xl font-bold">{$currentTeleform?.name}</h1>
 <div class="flex flex-col items-center justify-center gap-5">
@@ -169,6 +182,6 @@
             >Toggle answers</button
         >
         <button class="btn" on:click={goBack}>Go Back</button>
-        <button class="btn btn-error">Remove</button>
+        <button class="btn btn-error" on:click={remove}>Remove</button>
     </div>
 </div>

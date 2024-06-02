@@ -1,10 +1,6 @@
 <script lang="ts">
-    import { currentTeleform } from "./stores";
+    import { currentTeleform, teleforms } from "./stores";
     import type { Teleform } from "./stores";
-
-    const teleforms = JSON.parse(
-        localStorage.getItem("teleforms") ?? "[]",
-    ) as string[];
 
     function setTeleform(teleform: string) {
         return () => {
@@ -22,8 +18,9 @@
             return;
         }
 
-        teleforms.push(name);
-        localStorage.setItem("teleforms", JSON.stringify(teleforms));
+        const newNames = $teleforms;
+        newNames.push(name);
+        $teleforms = newNames;
 
         $currentTeleform = {
             name,
@@ -33,8 +30,12 @@
     }
 </script>
 
+<svelte:head>
+    <title>Select Teleform | Teleform</title>
+</svelte:head>
+
 <div class="flex flex-row flex-wrap items-center justify-center gap-10">
-    {#each teleforms as teleform}
+    {#each $teleforms as teleform}
         <div class="card w-96 bg-neutral text-neutral-content">
             <div class="card-body items-center text-center">
                 <h2 class="card-title">{teleform}</h2>
