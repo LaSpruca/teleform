@@ -35,7 +35,13 @@
     function setAnswer(index: number, answer: TeleformAnswer) {
         return () => {
             const items = $currentTeleform!.items;
-            items[index] = answer;
+
+            if (items[index] == answer) {
+                items[index] = undefined;
+            } else {
+                items[index] = answer;
+            }
+
             $currentTeleform = {
                 ...$currentTeleform!,
                 items,
